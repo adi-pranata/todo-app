@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todo_app/features/todo/domain/entities/todo.dart';
 import '../models/todo_model.dart';
 
 abstract class TodoLocalDatasource {
-  List<TodoModel> getTodos(String username);
+  Future<List<Todo>> getTodos(String username);
   Future<void> saveTodos(String username, List<TodoModel> todos);
 }
 
@@ -13,12 +14,10 @@ class TodoLocalDatasourceImpl implements TodoLocalDatasource {
   TodoLocalDatasourceImpl(this.prefs);
 
   @override
-  List<TodoModel> getTodos(String username) {
-    final data = prefs.getString('todos_$username');
-    if (data == null) return [];
-
-    final List decoded = json.decode(data);
-    return decoded.map((e) => TodoModel.fromJson(e)).toList();
+  Future<List<Todo>> getTodos(String username) async {
+    final jsonString = prefs.getString('todos_$username') ?? '[]';
+    final List<dynamic> jsonList = json.decode(jsonString);
+    return jsonList.map((e) => TodoModel.fromEntity(e)).toList();
   }
 
   @override

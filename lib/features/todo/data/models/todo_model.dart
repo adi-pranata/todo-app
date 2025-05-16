@@ -8,12 +8,12 @@ class TodoModel extends Todo {
     required super.createdAt,
   });
 
-  factory TodoModel.fromJson(Map<String, dynamic> json) {
+  factory TodoModel.fromEntity(Todo todo) {
     return TodoModel(
-      id: json['id'],
-      title: json['title'],
-      isDone: json['isDone'],
-      createdAt: DateTime.parse(json['createdAt']),
+      id: todo.id,
+      title: todo.title,
+      isDone: todo.isDone,
+      createdAt: todo.createdAt,
     );
   }
 
