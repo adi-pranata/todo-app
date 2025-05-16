@@ -21,8 +21,10 @@ class TodoLocalDatasourceImpl implements TodoLocalDatasource {
   }
 
   @override
-  Future<void> saveTodos(String username, List<TodoModel> todos) async {
-    final encoded = json.encode(todos.map((e) => e.toJson()).toList());
+  Future<void> saveTodos(String username, List<Todo> todos) async {
+    final encoded = json.encode(
+      todos.map((e) => TodoModel.fromEntity(e).toJson()).toList(),
+    );
     await prefs.setString('todos_$username', encoded);
   }
 }

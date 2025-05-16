@@ -38,7 +38,7 @@ class TodoNotifier extends StateNotifier<List<Todo>> {
   }
 
   void load() {
-    state = getTodo(username);
+    state = getTodo(username) as List<Todo>;
   }
 
   Future<void> add(String title, DateTime dueDate) async {

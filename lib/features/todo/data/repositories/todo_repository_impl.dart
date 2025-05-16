@@ -8,7 +8,7 @@ class TodoRepositoryImpl implements TodoRepository {
   TodoRepositoryImpl(this.datasource);
 
   @override
-  List<Todo> getTodos(String username) {
+  Future<List<Todo>> getTodos(String username) {
     return datasource.getTodos(username);
   }
 
