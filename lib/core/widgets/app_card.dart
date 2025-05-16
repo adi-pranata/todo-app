@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:todo_app/core/utilities/app_colors.dart';
 import 'package:todo_app/core/utilities/app_padding.dart';
 import 'package:todo_app/core/utilities/app_radius.dart';
@@ -8,7 +9,7 @@ import 'package:todo_app/core/widgets/status_badges.dart';
 
 class AppCard extends StatelessWidget {
   final String title;
-  final String dueDate;
+  final DateTime dueDate;
   final TodoStatus status;
   final VoidCallback onDonePressed;
   final VoidCallback onDeletePressed;
@@ -24,6 +25,7 @@ class AppCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final formattedDate = DateFormat('dd MMMM yyyy hh:mm a').format(dueDate);
     return ConstrainedBox(
       constraints: const BoxConstraints(minHeight: 140, maxHeight: 175),
       child: Container(
@@ -76,10 +78,10 @@ class AppCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    'Due date:\n$dueDate',
+                    'Due date:\n$formattedDate',
                     style: const TextStyle(
                       color: AppColor.white,
-                      fontSize: 16,
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
