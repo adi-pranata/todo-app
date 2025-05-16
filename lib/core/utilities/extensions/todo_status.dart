@@ -30,4 +30,11 @@ extension TodoStatusExtension on TodoStatus {
   Color get textColor {
     return this == TodoStatus.open ? AppColor.primary20 : AppColor.white;
   }
+
+   static TodoStatus? tryParse(String value) {
+    return TodoStatus.values.firstWhere(
+      (e) => e.label.toLowerCase() == value.toLowerCase(),
+      orElse: () => TodoStatus.open,
+    );
+  }
 }
