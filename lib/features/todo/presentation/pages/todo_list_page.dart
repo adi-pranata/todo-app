@@ -36,7 +36,7 @@ class _TodoListPageState extends ConsumerState<TodoListPage> {
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(const Duration(minutes: 1), (_) => setState(() {}));
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) => setState(() {}));
   }
 
   @override
