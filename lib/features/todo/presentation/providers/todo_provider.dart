@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_app/core/utilities/extensions/shared_pref_provider.dart';
-import 'package:todo_app/features/todo/data/models/todo_model.dart';
 import 'package:todo_app/features/todo/domain/usecases/get_todo.dart';
 import 'package:todo_app/features/todo/domain/usecases/save_todo.dart';
 import '../../../user/presentation/providers/user_provider.dart';
@@ -37,8 +36,9 @@ class TodoNotifier extends StateNotifier<List<Todo>> {
     load();
   }
 
-  void load() {
-    state = getTodo(username) as List<Todo>;
+  Future<void> load() async {
+    final todos = await getTodo(username);
+    state = todos;
   }
 
   Future<void> add(String title, DateTime dueDate) async {
@@ -51,11 +51,7 @@ class TodoNotifier extends StateNotifier<List<Todo>> {
 
     final updated = [...state, newTodo];
     state = updated;
-
-    await saveTodo(
-      username,
-      updated.map((todo) => TodoModel.fromEntity(todo)).toList(),
-    );
+    await saveTodo(username, updated);
   }
 
   Future<void> toggle(String id) async {
@@ -63,18 +59,12 @@ class TodoNotifier extends StateNotifier<List<Todo>> {
         .map((e) => e.id == id ? e.copyWith(isDone: !e.isDone) : e)
         .toList();
     state = updated;
-    await saveTodo(
-      username,
-      updated.map((todo) => TodoModel.fromEntity(todo)).toList(),
-    );
+    await saveTodo(username, updated);
   }
 
   Future<void> delete(String id) async {
     final updated = state.where((e) => e.id != id).toList();
     state = updated;
-    await saveTodo(
-      username,
-      updated.map((todo) => TodoModel.fromEntity(todo)).toList(),
-    );
+    await saveTodo(username, updated);
   }
 }

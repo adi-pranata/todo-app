@@ -26,6 +26,7 @@ class AppCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formattedDate = DateFormat('dd MMMM yyyy hh:mm a').format(dueDate);
+
     return ConstrainedBox(
       constraints: const BoxConstraints(minHeight: 140, maxHeight: 175),
       child: Container(
@@ -58,7 +59,7 @@ class AppCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
             const SizedBox(height: AppPadding.sm),
@@ -86,11 +87,12 @@ class AppCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                AppButton(
-                  label: 'DONE',
-                  onPressed: onDonePressed,
-                  color: AppColor.secondary,
-                ),
+                if (status != TodoStatus.done)
+                  AppButton(
+                    label: 'DONE',
+                    onPressed: onDonePressed,
+                    color: AppColor.secondary,
+                  ),
               ],
             ),
           ],

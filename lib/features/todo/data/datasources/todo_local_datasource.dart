@@ -5,7 +5,7 @@ import '../models/todo_model.dart';
 
 abstract class TodoLocalDatasource {
   Future<List<Todo>> getTodos(String username);
-  Future<void> saveTodos(String username, List<TodoModel> todos);
+  Future<void> saveTodos(String username, List<Todo> todos);
 }
 
 class TodoLocalDatasourceImpl implements TodoLocalDatasource {
@@ -17,7 +17,7 @@ class TodoLocalDatasourceImpl implements TodoLocalDatasource {
   Future<List<Todo>> getTodos(String username) async {
     final jsonString = prefs.getString('todos_$username') ?? '[]';
     final List<dynamic> jsonList = json.decode(jsonString);
-    return jsonList.map((e) => TodoModel.fromEntity(e)).toList();
+    return jsonList.map((e) => TodoModel.fromJson(e)).toList();
   }
 
   @override

@@ -17,6 +17,15 @@ class TodoModel extends Todo {
     );
   }
 
+  factory TodoModel.fromJson(Map<String, dynamic> json) {
+    return TodoModel(
+      id: json['id'],
+      title: json['title'],
+      isDone: json['isDone'],
+      createdAt: DateTime.parse(json['createdAt']),
+    );
+  }
+
   Map<String, dynamic> toJson() => {
         'id': id,
         'title': title,

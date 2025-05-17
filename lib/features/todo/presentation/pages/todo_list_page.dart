@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_app/core/widgets/app_card.dart';
@@ -17,6 +18,8 @@ class TodoListPage extends ConsumerStatefulWidget {
 }
 
 class _TodoListPageState extends ConsumerState<TodoListPage> {
+  Timer? _timer;
+
   void _openAddDialog() async {
     final result = await showDialog<Map<String, dynamic>>(
       context: context,
@@ -28,6 +31,18 @@ class _TodoListPageState extends ConsumerState<TodoListPage> {
       final dueDate = result['dueDate'] as DateTime;
       await ref.read(todoNotifierProvider.notifier).add(title, dueDate);
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(const Duration(minutes: 1), (_) => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -64,8 +79,7 @@ class _TodoListPageState extends ConsumerState<TodoListPage> {
                       itemCount: todos.length,
                       itemBuilder: (context, index) {
                         final todo = todos[index];
-                        final status =
-                            todo.isDone ? TodoStatus.done : TodoStatus.open;
+                        final status = todo.status;
 
                         return Padding(
                           padding: const EdgeInsets.only(bottom: AppPadding.md),
