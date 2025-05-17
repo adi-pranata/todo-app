@@ -8,7 +8,7 @@ enum TodoStatus { open, done, overdue }
 extension TodoStatusExtension on Todo {
   TodoStatus get status {
     if (isDone) return TodoStatus.done;
-    if (createdAt.isBefore(DateTime.now())) return TodoStatus.overdue;
+    if (DateTime.now().isAfter(createdAt)) return TodoStatus.overdue;
     return TodoStatus.open;
   }
 }

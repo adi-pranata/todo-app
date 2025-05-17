@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_app/core/utilities/extensions/shared_pref_provider.dart';
 import 'package:todo_app/features/todo/domain/usecases/get_todo.dart';
@@ -37,17 +38,19 @@ class TodoNotifier extends StateNotifier<List<Todo>> {
     required this.saveTodo,
   }) : super([]) {
     load();
-    _timer = Timer.periodic(const Duration(minutes: 1), (_) => _checkTodos());
-  }
-
-  void _checkTodos() {
-    load();
+    _timer =
+        Timer.periodic(const Duration(seconds: 1), (_) => _refreshStatus());
   }
 
   @override
   void dispose() {
     _timer?.cancel();
     super.dispose();
+  }
+
+  Future<void> _refreshStatus() async {
+    final todos = await getTodo(username);
+    state = [...todos];
   }
 
   Future<void> load() async {

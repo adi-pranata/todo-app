@@ -79,14 +79,13 @@ class _TodoListPageState extends ConsumerState<TodoListPage> {
                       itemCount: todos.length,
                       itemBuilder: (context, index) {
                         final todo = todos[index];
-                        final status = todo.status;
 
                         return Padding(
                           padding: const EdgeInsets.only(bottom: AppPadding.md),
                           child: AppCard(
                             title: todo.title,
                             dueDate: todo.createdAt,
-                            status: status,
+                            status: todo.status,
                             onDonePressed: () => ref
                                 .read(todoNotifierProvider.notifier)
                                 .toggle(todo.id),
